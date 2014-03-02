@@ -3,46 +3,43 @@
 //
 // An example of a golang web server.
 //
-// This one responds in one of three ways :
-//
-//   (1) For URLS that start with /generic/ such as
-//       http://localhost:8097/generic/page?color=purple ,
-//       it sends some text/plain diagnostics.
-//
-//   (2) For URLs of the form /item/textstring, 
-//       it sends back a simplistic JSON response.
-//       (In a real application, texstring could for example be
-//       the name of an item, and the response could describe it.)
-//
-//   (3) And for URLS that don't match /item/* or /generic/* 
-//       the response is "404 page not found"
-//
 // Usage:
 //
 //   # run go server in the background
 //   $ go run webserver &
 //
 //   While that's running, use a browser to visit a page. 
-//   
-//     URL : http://localhost:8097/item/yellow
-//     browser (application/json) :
-//       {"name":"yellow", "what":"item"}
+//   It responds in one of three ways :
 //
-//     URL: http://localhost:8097/generic/page?color=purple
-//     browser (text/plain) :
-//        FooWebHandler says ... 
-//          request.Method      'GET'
-//          request.RequestURI  '/generic/page?color=purple'
-//          request.URL.Path    '/generic/page'
-//          request.Form        'map[color:[purple]]'
-//          request.Cookies()   '[testcookiename=testcookievalue]'
+//   (1) For URLS that start with /generic/ such as
+//       it sends some text/plain diagnostics.
 //
-//     URL: http://localhost:8097/other/path
-//     browser :
-//       404 page not found
+//       URL: http://localhost:8097/generic/page?color=purple
+//       browser (text/plain) :
+//           FooWebHandler says ... 
+//             request.Method      'GET'
+//             request.RequestURI  '/generic/page?color=purple'
+//             request.URL.Path    '/generic/page'
+//             request.Form        'map[color:[purple]]'
+//             request.Cookies()   '[testcookiename=testcookievalue]'
 //
-// Each visit sets the same cookie. On the first visit
-// the request won't have it yet since it hasn't been set yet.
+//   (2) For URLs of the form /item/textstring, 
+//       it sends back a simplistic JSON response.
+//       (In a real application, texstring could for example be
+//       the name of an item, and the response could describe it.)
+//
+//       URL: http://localhost:8097/item/yellow
+//       browser (application/json) :
+//           {"name":"yellow", "what":"item"}
+//
+//   (3) Other pages give an error.
+//
+//       URL: http://localhost:8097/other/path
+//       browser :
+//           404 page not found
+//
+// Each visit sets a simple cookie, which
+// can be accessed from the request after the 1st visit.
 //
 // For use in an AJAX setting, you should first decide on a way to
 // encode requests for information or submission of data into the URL.
@@ -52,6 +49,9 @@
 // the ?keyword=value part of the URL, though I think that's less
 // clean. Then to pass the data back to the javascript at the client,
 // JSON as shown in the /item/name example is a good choice.
+//
+// For a discussion of REST see 
+// en.wikipedia.org/wiki/Representational_state_transfer#Central_principle
 //
 // Go also has a 3rd party gorilla/mux package that looks interesting,
 // setting up fancier ways to extract information from the URL and
@@ -64,9 +64,6 @@
 //   https://devcharm.com/pages/8-golang-net-http-handlers
 //   http://www.alexedwards.net/blog/a-recap-of-request-handling
 //   http://blog.golang.org/json-and-go
-//
-// For a discussion of REST see 
-// en.wikipedia.org/wiki/Representational_state_transfer#Central_principle
 //
 // Jim Mahoney | cs.marlboro.edu | MIT License | March 2014
 
