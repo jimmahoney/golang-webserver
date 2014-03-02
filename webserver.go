@@ -150,7 +150,7 @@ func main(){
 	log.Print("Listening on port " + portstring + " ... ")
 	err := http.ListenAndServe(":" + portstring, mux)
 	if err != nil {
-		log.Fatal("ListenAndServe error: ", error)
+		log.Fatal("ListenAndServe error: ", err)
 	}
 }
 
