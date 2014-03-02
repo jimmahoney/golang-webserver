@@ -148,8 +148,8 @@ func main(){
 	// Start listing on a given port with these routes on this server.
 	// (I think the server name can be set here too , i.e. "foo.org:8080")
 	log.Print("Listening on port " + portstring + " ... ")
-	error := http.ListenAndServe(":" + portstring, mux)
-	if error != nil {
+	err := http.ListenAndServe(":" + portstring, mux)
+	if err != nil {
 		log.Fatal("ListenAndServe error: ", error)
 	}
 }
