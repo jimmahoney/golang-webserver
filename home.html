@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>go server example</title>
+  <script 
+     src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">
+  </script>
+  <script>
+    $(function(){ ajax_request() });
+    var ajax_handler = function(json){
+      /* debugging : */
+      /* alert(" typeof(json) = " + typeof(json) + "; json = " + json); *
+      /* the json data for /item/foo should be {"name":"foo","what":"item"} */
+     $("#the_span").html(json.name);  
+    }
+    var ajax_request = function(){
+      /* see https://api.jquery.com/jQuery.get */
+      $.get("/item/foo", ajax_handler, "json");
+    }
+  </script>
+</head>
+<body>
+  <h1>go server example</h1>
+  <p>The ajax request says the name is '<span id="the_span">?</span>'.</p>
+</body>
+</html>

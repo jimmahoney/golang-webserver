@@ -9,9 +9,12 @@
 //   $ go run webserver &
 //
 //   While that's running, use a browser to visit a page. 
-//   It responds in one of three ways :
+//   It responds in one of several ways :
 //
-//   (1) For URLS that start with /generic/ such as
+//  (0) for the URL /home it sends a home HTML page,
+//      that runs an AJAX secondary get
+//
+//   (1) For URLS that start with /generic/ 
 //       it sends some text/plain diagnostics.
 //
 //       URL: http://localhost:8097/generic/page?color=purple
@@ -71,6 +74,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"strconv"
 	"log"
 	"net/http"
@@ -104,6 +108,16 @@ func GenericHandler(response http.ResponseWriter, request *http.Request){
 	fmt.Fprintf(response, " request.URL.Path   '%v'\n", request.URL.Path)
 	fmt.Fprintf(response, " request.Form       '%v'\n", request.Form)
 	fmt.Fprintf(response, " request.Cookies()  '%v'\n", request.Cookies())
+}
+
+// Respond to the URL /home with an html home page
+func HomeHandler(response http.ResponseWriter, request *http.Request){
+	response.Header().Set("Content-type", "text/html")
+	webpage, err := ioutil.ReadFile("home.html")
+	if err != nil { 
+		http.Error(response, fmt.Sprintf("home.html file error %v", err), 500)
+	}
+	fmt.Fprint(response, string(webpage));
 }
 
 // Respond to URLs of the form /item/...
@@ -142,6 +156,7 @@ func main(){
 	// See gorilla/mux for a more powerful matching system.
 	// Note that the "/" pattern matches all request URLs.
 	mux := http.NewServeMux()
+	mux.Handle("/home", http.HandlerFunc( HomeHandler ))
 	mux.Handle("/item/", http.HandlerFunc( ItemHandler ))
 	mux.Handle("/generic/", http.HandlerFunc( GenericHandler ))
 
