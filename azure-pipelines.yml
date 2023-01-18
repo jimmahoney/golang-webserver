@@ -5,6 +5,7 @@ trigger:
 
 variables:
   BuildID: variables['Build.BuildId']
+  DOCKER_USERNAME: hakobmkoyan771
 
 pool:
   Default
@@ -22,6 +23,9 @@ jobs:
           dockerVersion: '20.10.21'
           releaseType: stable
 
+      - script: |
+          echo $(DOCKER_PASSWORD) | docker login -u $(DOCKER_USERNAME) --password-stdin
+
       - task: Docker@2
         displayName: build and push
         inputs:
@@ -30,4 +34,3 @@ jobs:
           Dockerfile: 'Dockerfile'
           buildContext: './'
           tags: '$(BuildID)'
-          containerRegistry: "https://index.docker.io/v1/"
