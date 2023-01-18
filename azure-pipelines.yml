@@ -12,11 +12,16 @@ pool:
 jobs:
   - job: build_push_container
     steps:
+      - script: |
+          docker version
+        displayName: If docker is installed
+
       - task: DockerInstaller@0
-        displayName: set up docker cli
+        condition: failed()
         inputs:
-          dockerVersion: '17.09.0-ce'
-          
+          dockerVersion: '20.10.21'
+          releaseType: stable
+
       - task: Docker@2
         displayName: build and push
         inputs:
@@ -25,3 +30,4 @@ jobs:
           Dockerfile: 'Dockerfile'
           buildContext: './'
           tags: '$(BuildID)'
+          containerRegistry: "https://index.docker.io/v1/"
