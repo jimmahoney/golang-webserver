@@ -3,12 +3,25 @@ trigger:
     include:
       - master
 
+variables:
+  BuildID: variables['Build.BuildId']
+
 pool:
   Default
 
 jobs:
-  - job: test_env
+  - job: build_push_container
     steps:
-      - script: |
-          ls; pwd
-        displayName: test env
+      - task: DockerInstaller@0
+        displayName: set up docker cli
+        inputs:
+          dockerVersion: '17.09.0-ce'
+          
+      - task: Docker@2
+        displayName: build and push
+        inputs:
+          repository: 'hakobmkoyan771'
+          command: 'buildAndPush'
+          Dockerfile: 'Dockerfile'
+          buildContext: './'
+          tags: '$(BuildID)'
