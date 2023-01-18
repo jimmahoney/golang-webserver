@@ -26,6 +26,6 @@ jobs:
             inputs:
               repository: 'hakobmkoyan771/demo_app'
               command: 'buildAndPush'
-              Dockerfile: 'Dockerfile'
+              Dockerfile: './Dockerfile'
               buildContext: './'
               tags: '$(BuildID)'
