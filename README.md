@@ -14,4 +14,3 @@ which return a JSON response {"name":"foo","what":"item"},
 part of which is inserted into the home page's span element.
 
 ![](chrome_screenshot.png)
-
