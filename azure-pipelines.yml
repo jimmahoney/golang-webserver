@@ -22,7 +22,7 @@ jobs:
             displayName: login docker
 
           - script: | 
-              ls
+              hostname
             displayName: debug
 
           - task: Docker@2
