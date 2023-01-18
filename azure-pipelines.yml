@@ -11,17 +11,21 @@ pool:
   Default
 
 jobs:
-  - job: build_push_container
-    steps:
-      - script: |
-          echo $(DOCKER_PASSWORD) | docker login -u $(DOCKER_USERNAME) --password-stdin
-        displayName: login docker
+  - deployment: build_push_container
+    environment: 'Work'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: |
+              echo $(DOCKER_PASSWORD) | docker login -u $(DOCKER_USERNAME) --password-stdin
+            displayName: login docker
 
-      - task: Docker@2
-        displayName: build and push
-        inputs:
-          repository: 'hakobmkoyan771/demo_app'
-          command: 'buildAndPush'
-          Dockerfile: 'Dockerfile'
-          buildContext: './'
-          tags: '$(BuildID)'
+          - task: Docker@2
+            displayName: build and push
+            inputs:
+              repository: 'hakobmkoyan771/demo_app'
+              command: 'buildAndPush'
+              Dockerfile: 'Dockerfile'
+              buildContext: './'
+              tags: '$(BuildID)'
