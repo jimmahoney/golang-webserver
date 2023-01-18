@@ -4,7 +4,7 @@ trigger:
       - master
 
 variables:
-  BuildID: variables['Build.BuildId']
+  BuildID: $[variables['Build.BuildId']]
   DOCKER_USERNAME: hakobmkoyan771
 
 pool:
