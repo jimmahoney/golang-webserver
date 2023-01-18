@@ -7,7 +7,7 @@ pool:
   Default
 
 jobs:
-  - job: test env
+  - job: test_env
     steps:
       - script: |
           ls; pwd
