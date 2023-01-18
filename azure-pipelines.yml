@@ -17,9 +17,9 @@ jobs:
       runOnce:
         deploy:
           steps:
-          - checkout: 'Hakob771/golang-webserver'
+          - checkout: self
             displayName: checkout golang repo
-            
+
           - script: |
               echo $(DOCKER_PASSWORD) | docker login -u $(DOCKER_USERNAME) --password-stdin
             displayName: login docker
