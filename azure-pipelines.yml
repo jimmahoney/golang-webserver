@@ -12,7 +12,7 @@ pool:
 
 jobs:
   - deployment: build_push_container
-    environment: 'Work'
+    environment: 'Work.worker-node'
     strategy:
       runOnce:
         deploy:
