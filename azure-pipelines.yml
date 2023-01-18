@@ -14,17 +14,8 @@ jobs:
   - job: build_push_container
     steps:
       - script: |
-          docker version
-        displayName: If docker is installed
-
-      - task: DockerInstaller@0
-        condition: failed()
-        inputs:
-          dockerVersion: '17.09.0-ce'
-          releaseType: stable
-
-      - script: |
           echo $(DOCKER_PASSWORD) | docker login -u $(DOCKER_USERNAME) --password-stdin
+        displayName: login docker
 
       - task: Docker@2
         displayName: build and push
