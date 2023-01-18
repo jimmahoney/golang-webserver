@@ -20,7 +20,7 @@ jobs:
       - task: DockerInstaller@0
         condition: failed()
         inputs:
-          dockerVersion: '20.10.21'
+          dockerVersion: '17.09.0-ce'
           releaseType: stable
 
       - script: |
