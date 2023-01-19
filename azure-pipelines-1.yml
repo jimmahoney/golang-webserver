@@ -10,7 +10,12 @@ pool:
   Default
 
 jobs:
-  - job: debug
-    steps:
-      - script: |
-          echo $(resources.pipeline.building.variables.DOCKER_USERNAME)
+  - deployment: 'deploy_application'
+    environment: 'main.server'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - script: |
+                docker run -d -p 8097:80 $(DOCKERHUB_USERNAME)/$(CONTAINER_NAME)
+              displayName: deploy container
