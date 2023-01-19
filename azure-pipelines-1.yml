@@ -1,12 +1,8 @@
 resources:
   pipelines:
-    - pipeline: "building_pipeline"
-      source: "build_pipeline"
-      project: "digital"
-      trigger: 
-        branches:
-          include:
-            - master/azure-pipelines-1.yml
+    - pipeline: building
+      source: Hakob771.golang-webserver
+      trigger: true
 
 pool:
   Default
