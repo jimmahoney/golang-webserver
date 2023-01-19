@@ -8,6 +8,7 @@ trigger:
 variables:
   BuildID: $[variables['Build.BuildId']]
   DOCKER_USERNAME: hakobmkoyan771
+  CONTAINER_NAME: demo_app
 
 pool:
   Default
@@ -29,7 +30,7 @@ jobs:
           - task: Docker@2
             displayName: build and push
             inputs:
-              repository: 'hakobmkoyan771/demo_app'
+              repository: "$(DOCKER_USERNAME)/$(CONTAINER_NAME)"
               command: 'buildAndPush'
               Dockerfile: './Dockerfile'
               buildContext: './'
