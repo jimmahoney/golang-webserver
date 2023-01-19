@@ -1,0 +1,22 @@
+resources:
+  pipelines:
+    - pipeline: building
+      source: build_pipeline
+      trigger: true
+
+pool:
+  Default
+
+variables:
+  CONTAINER_NAME: $[join(resources.pipeline.building.variables['DOCKER_USERNAME'], resources.pipeline.building.variables['CONTAINER_NAME'])]
+
+jobs:
+  - deployment: run_container_app
+    environment: 'main.server'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - script: |
+                docker run -d -p 8097:80 $(CONTAINER_NAME)
+              
