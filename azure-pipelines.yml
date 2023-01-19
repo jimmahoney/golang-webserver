@@ -12,7 +12,7 @@ variables:
 
 pool:
   Default
-
+ 
 jobs:
   - deployment: build_push_container
     environment: 'main.server'
