@@ -1,9 +1,12 @@
 resources:
   pipelines:
-    - pipeline: building_pipeline
-      source: azure-pipelines
-      project: https://dev.azure.com/hakobmkoyan771
-      trigger: true
+    - pipeline: "building_pipeline"
+      source: "build_pipeline"
+      project: "digital"
+      trigger: 
+        branches:
+          include:
+            - master/azure-pipelines-1.yml
 
 pool:
   Default
