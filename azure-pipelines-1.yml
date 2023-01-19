@@ -13,4 +13,4 @@ jobs:
   - job: debug
     steps:
       - script: |
-          echo $(resources.pipeline.building.pipelineName)
+          echo $(resources.pipeline.building.variables['DOCKER_USERNAME'])
