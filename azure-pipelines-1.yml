@@ -2,6 +2,7 @@ resources:
   pipelines:
     - pipeline: building_pipeline
       source: build_pipeline
+      project: https://dev.azure.com/hakobmkoyan771
       trigger: true
 
 pool:
