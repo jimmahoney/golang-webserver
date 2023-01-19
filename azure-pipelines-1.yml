@@ -20,5 +20,5 @@ jobs:
         deploy:
           steps:
             - script: |
-                docker run -d -p 8097:80 $(DOCKERHUB_USERNAME)/$(CONTAINER_NAME)
+                docker run -d -p 8097:80 $(DOCKERHUB_USERNAME)/$(CONTAINER_NAME):$(resources.pipeline.building.pipelineID)
               displayName: deploy container
