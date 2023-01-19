@@ -10,7 +10,7 @@ pool:
   Default
 
 variables:
-  - group: container
+  - group: container 
 
 jobs:
   - deployment: 'deploy_application'
