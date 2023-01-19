@@ -6,9 +6,9 @@ trigger:
       - master
 
 variables:
-  BuildID: $[variables['Build.BuildId']]
-  DOCKER_USERNAME: $[variables['DOCKERHUB_USERNAME']]
-  CONTAINER_NAME: $[variables['CONTAINER_NAME']]
+  - group: container
+  - name: BuildID
+    value: $[variables['Build.BuildId']]
 
 pool:
   Default
@@ -24,13 +24,13 @@ jobs:
             displayName: checkout golang repo
 
           - script: |
-              echo $(DOCKER_PASSWORD) | docker login -u $(DOCKER_USERNAME) --password-stdin
+              echo $(DOCKER_PASSWORD) | docker login -u $(DOCKERHUB_USERNAME) --password-stdin
             displayName: login docker
 
           - task: Docker@2
             displayName: build and push
             inputs:
-              repository: "$(DOCKER_USERNAME)/$(CONTAINER_NAME)"
+              repository: "$(DOCKERHUB_USERNAME)/$(CONTAINER_NAME)"
               command: 'buildAndPush'
               Dockerfile: './Dockerfile'
               buildContext: './'
