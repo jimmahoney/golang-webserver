@@ -7,8 +7,8 @@ trigger:
 
 variables:
   BuildID: $[variables['Build.BuildId']]
-  DOCKER_USERNAME: hakobmkoyan771
-  CONTAINER_NAME: demo_app
+  DOCKER_USERNAME: $[variables['DOCKERHUB_USERNAME']]
+  CONTAINER_NAME: $[variables['CONTAINER_NAME']]
 
 pool:
   Default
