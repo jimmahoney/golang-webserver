@@ -9,6 +9,9 @@ resources:
 pool:
   Default
 
+variables:
+  - group: container
+
 jobs:
   - deployment: 'deploy_application'
     environment: 'main.server'
