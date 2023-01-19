@@ -1,3 +1,5 @@
+name: build_pipeline
+
 trigger:
   branches:
     include:
@@ -12,7 +14,7 @@ pool:
 
 jobs:
   - deployment: build_push_container
-    environment: 'Work.worker-node'
+    environment: 'main.server'
     strategy:
       runOnce:
         deploy:
