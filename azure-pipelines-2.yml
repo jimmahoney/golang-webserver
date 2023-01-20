@@ -30,6 +30,6 @@ jobs:
      runOnce:
        deploy:
          steps:
-           - publish: pwd
+           - publish: `pwd`
              artifact: 'WebApp'
              displayName: publish app
