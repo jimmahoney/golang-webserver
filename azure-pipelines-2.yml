@@ -30,6 +30,8 @@ jobs:
      runOnce:
        deploy:
          steps:
-           - publish: `pwd`
+           - script: |
+               echo "##vso[task.setvariable variable=path]`pwd`"
+           - publish: $(path)
              artifact: 'WebApp'
              displayName: publish app
