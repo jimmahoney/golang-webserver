@@ -3,7 +3,7 @@ name: build_pipeline
 trigger:
   branches:
     include:
-      - master
+      - main
 
 variables:
   - group: container
