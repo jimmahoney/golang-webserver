@@ -15,6 +15,7 @@ jobs:
          steps:
            - script: |
                hostname
+               go mod init
                go mod tidy
                go build
 
@@ -24,5 +25,5 @@ jobs:
      runOnce:
        deploy:
          steps:
-           - publish: ./*
+           - publish: pwd
              artifact: 'WebApp'
