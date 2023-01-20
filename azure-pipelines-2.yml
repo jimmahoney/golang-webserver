@@ -39,5 +39,4 @@ jobs:
               feedsToUsePublish: 'internal'
               vstsFeedPublish: '90d10e4b-4092-4999-9324-1654858e1908'
               vstsFeedPackagePublish: 'WebPackage'
-              versionOption: 'custom'
-              versionPublish: '0.$(Build.BuildNumber).0'
+              versionPublish: 'minor'
