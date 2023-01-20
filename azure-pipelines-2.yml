@@ -15,12 +15,13 @@ jobs:
          steps:
            - script: |
                hostname
-               go mod init
+               go mod init webserver.go
                go mod tidy
                go build
 
   - deployment: publish
     environment: 'golang.go'
+    dependsOn: build_go_app
     strategy:
      runOnce:
        deploy:
