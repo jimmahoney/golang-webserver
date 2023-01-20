@@ -13,11 +13,15 @@ jobs:
      runOnce:
        deploy:
          steps:
+           - checkout: self
+             displayName: checkout repo
+
            - script: |
                hostname
                go mod init webserver.go
                go mod tidy
                go build
+             displayName: build app
 
   - deployment: publish
     environment: 'golang.go'
@@ -28,3 +32,4 @@ jobs:
          steps:
            - publish: pwd
              artifact: 'WebApp'
+             displayName: publish app
