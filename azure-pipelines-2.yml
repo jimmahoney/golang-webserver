@@ -1,0 +1,27 @@
+trigger:
+  branches:
+    include:
+      - master
+
+pool:
+  Default
+
+jobs:
+  - deployment: build_go_app
+    environment: 'go'
+    strategy:
+     runOnce:
+       deploy:
+         steps:
+           - script: |
+               go mod tidy
+               go build
+
+  - deployment: publish
+    environment: 'go'
+    strategy:
+     runOnce:
+       deploy:
+         steps:
+           - publish: ./*
+             artifact: 'WebApp'
