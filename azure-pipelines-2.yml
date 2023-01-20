@@ -40,4 +40,4 @@ jobs:
               vstsFeedPublish: '90d10e4b-4092-4999-9324-1654858e1908'
               publishPackageMetadata: false
               vstsFeedPackagePublish: 'Esim'
-              versionOption: 'minor'
+              versionOption: 'patch'
