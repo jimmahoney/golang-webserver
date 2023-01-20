@@ -30,8 +30,12 @@ jobs:
      runOnce:
        deploy:
          steps:
-           - script: |
-               echo "##vso[task.setvariable variable=path]`pwd`"
-           - publish: $(path)
-             artifact: 'WebApp'
-             displayName: publish app
+          - task: UniversalPackages@0
+            inputs:
+              command: 'publish'
+              publishDirectory: '$(Build.ArtifactStagingDirectory)'
+              feedsToUsePublish: 'internal'
+              vstsFeedPublish: '90d10e4b-4092-4999-9324-1654858e1908'
+              vstsFeedPackagePublish: 'WebPackage'
+              versionOption: 'custom'
+              versionPublish: '0.$(Build.BuildNumber).0'
