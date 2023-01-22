@@ -3,6 +3,8 @@ pr:
     include:
       - 'master'
 
+trigger: none
+
 jobs:
   - job: 'a'
     pool:
