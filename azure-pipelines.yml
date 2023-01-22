@@ -1,9 +1,6 @@
 name: build_pipeline
 
-trigger:
-  branches:
-    include:
-      - main
+trigger: none
 
 variables:
   - group: container
