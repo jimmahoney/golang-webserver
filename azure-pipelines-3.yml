@@ -1,0 +1,12 @@
+pr:
+  branches:
+    include:
+      - 'master'
+
+jobs:
+  - job: 'a'
+    pool:
+      Default
+    steps:
+      - script: |
+        echo Hello World
