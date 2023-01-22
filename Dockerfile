@@ -5,4 +5,3 @@ COPY . .
 ENTRYPOINT [ "go", "run" ]
 
 CMD [ "webserver.go" ]
- 
