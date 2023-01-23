@@ -3,6 +3,9 @@ pr:
     include:
       - master
 
+variables:
+  environment_name: qa-env
+
 trigger: none
 
 jobs:
@@ -17,10 +20,10 @@ jobs:
     - task: AzureCLI@2
       displayName: Create Resource Group
       inputs:
-        azureSubscription: 'Azure subscription 1(e7d806da-b59d-43d3-97cc-ce664a6d9e1b)'
+        azureSubscription: 'Azure subsc1ription 1(e7d806da-b59d-43d3-97cc-ce664a6d9e1b)'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
-        inlineScript: 'az group create --name $(Build.SourceBranchName)-rg --location eastus'
+        inlineScript: 'az group create --name $(System.PullRequest.SourceBranch)-rg --location eastus'
     
     - task: AzureCLI@2
       displayName: Create VM
@@ -30,8 +33,8 @@ jobs:
         scriptLocation: 'inlineScript'
         inlineScript: |
           az vm create \
-            --resource-group $(Build.SourceBranchName)-rg \
-            --name $(Build.SourceBranchName) \
+            --resource-group $(System.PullRequest.SourceBranch)-rg \
+            --name $(System.PullRequest.SourceBranch) \
             --image Debian \
             --admin-username azureuser \
             --generate-ssh-keys \
@@ -45,7 +48,7 @@ jobs:
         scriptLocation: 'inlineScript'
         inlineScript: |
           az vm run-command invoke \
-             -g $(Build.SourceBranchName)-rg \
-             -n $(Build.SourceBranchName) \
+             -g $(System.PullRequest.SourceBranch)-rg \
+             -n $(System.PullRequest.SourceBranch) \
              --command-id RunShellScript \
-             --scripts "mkdir azagent;cd azagent;curl -fkSL -o vstsagent.tar.gz https://vstsagentpackage.azureedge.net/agent/2.214.1/vsts-agent-linux-x64-2.214.1.tar.gz;tar -zxvf vstsagent.tar.gz; if [ -x "$(command -v systemctl)" ]; then ./config.sh --environment --environmentname $(Build.SourceBranchName)-env --acceptteeeula --agent $HOSTNAME --url https://dev.azure.com/hakobmkoyan771/ --work _work --projectname 'digital' --auth PAT --token $(token) --runasservice; sudo ./svc.sh install; sudo ./svc.sh start; else ./config.sh --environment --environmentname "a" --acceptteeeula --agent $HOSTNAME --url https://dev.azure.com/hakobmkoyan771/ --work _work --projectname 'digital' --auth PAT --token $(token); ./run.sh; fi"
+             --scripts "mkdir azagent;cd azagent;curl -fkSL -o vstsagent.tar.gz https://vstsagentpackage.azureedge.net/agent/2.214.1/vsts-agent-linux-x64-2.214.1.tar.gz;tar -zxvf vstsagent.tar.gz; if [ -x "$(command -v systemctl)" ]; then ./config.sh --environment --environmentname $(environment_name) --acceptteeeula --agent $HOSTNAME --url https://dev.azure.com/hakobmkoyan771/ --work _work --projectname 'digital' --auth PAT --token $(token) --runasservice; sudo ./svc.sh install; sudo ./svc.sh start; else ./config.sh --environment --environmentname $(environment_name) --acceptteeeula --agent $HOSTNAME --url https://dev.azure.com/hakobmkoyan771/ --work _work --projectname 'digital' --auth PAT --token $(token); ./run.sh; fi"
