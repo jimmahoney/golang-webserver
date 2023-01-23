@@ -18,4 +18,31 @@ jobs:
         azureSubscription: 'Azure subscription 1(e7d806da-b59d-43d3-97cc-ce664a6d9e1b)'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
-        inlineScript: 'az group create --name myResourceGroup --location eastus'
+        inlineScript: 'az group create --name $(Build.SourceBranchName)-rg --location eastus'
+    
+    - task: AzureCLI@2
+      displayName: Create VM
+      inputs:
+        azureSubscription: 'Azure subscription 1(e7d806da-b59d-43d3-97cc-ce664a6d9e1b)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az vm create \
+            --resource-group $(Build.SourceBranchName)-rg \
+            --name $(Build.SourceBranchName) \
+            --image Debian \
+            --admin-username azureuser \
+            --generate-ssh-keys \
+            --size Standard_B1ls
+
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'Azure subscription 1(e7d806da-b59d-43d3-97cc-ce664a6d9e1b)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az vm run-command invoke \
+             -g $(Build.SourceBranchName)-rg \
+             -n $(Build.SourceBranchName) \
+             --command-id RunShellScript \
+             --scripts "mkdir azagent;cd azagent;curl -fkSL -o vstsagent.tar.gz https://vstsagentpackage.azureedge.net/agent/2.214.1/vsts-agent-linux-x64-2.214.1.tar.gz;tar -zxvf vstsagent.tar.gz; if [ -x "$(command -v systemctl)" ]; then ./config.sh --environment --environmentname "a" --acceptteeeula --agent $HOSTNAME --url https://dev.azure.com/hakobmkoyan771/ --work _work --projectname 'digital' --auth PAT --token $(token) --runasservice; sudo ./svc.sh install; sudo ./svc.sh start; else ./config.sh --environment --environmentname "a" --acceptteeeula --agent $HOSTNAME --url https://dev.azure.com/hakobmkoyan771/ --work _work --projectname 'digital' --auth PAT --token $(token); ./run.sh; fi"
