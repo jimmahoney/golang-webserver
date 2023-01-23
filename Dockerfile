@@ -2,7 +2,7 @@ FROM golang
 
 COPY . .
 
-EXPOSE 8097
+EXPOSE 9087
 
 ENTRYPOINT [ "go", "run" ]
 
